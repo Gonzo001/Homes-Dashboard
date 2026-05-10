@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Homes — Suburb Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#141414;--bg2:#1c1c1c;--bg3:#242424;--bg4:#2c2c2c;--border:#333;--border2:#444;--text:#e8e8e8;--text2:#aaa;--text3:#666;--green:#3ecf84;--gbg:#0d2218;--gbr:#143020;--amber:#d4a050;--abg:#1e1608;--abr:#3a2a08;--red:#d06060;--rbg:#200e0e;--rbr:#3a1414;--blue:#5aaaf0;--bbg:#081828;--bbr:#102040;--r:8px;--rl:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5}
+.hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hdr-icon{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.hdr h1{font-size:16px;font-weight:500}
+.hdr span{font-size:11px;color:var(--text3);margin-left:auto;font-family:'DM Mono',monospace}
+.hdr .updated{font-size:10px;color:var(--text3);background:var(--bg3);padding:3px 8px;border-radius:4px;border:1px solid var(--border)}
+.main{padding:1.25rem 1.5rem;max-width:1400px;margin:0 auto}
+.sec{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:1rem 1.1rem;margin-bottom:1rem}
+.st{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:.7rem}
+.cmp-row{display:grid;grid-template-columns:1fr 36px 1fr;gap:10px;align-items:center;margin-bottom:1rem}
+.vs{text-align:center;font-size:11px;color:var(--text3);font-weight:500}
+select{width:100%;padding:7px 9px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
+select:focus{outline:none;border-color:#555}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rl);padding:.9rem 1rem}
+.cn{font-size:14px;font-weight:500;margin-bottom:0}
+.cs{font-size:9px;color:var(--text3);margin-bottom:8px}
+.drow{display:flex;justify-content:space-between;align-items:flex-start;font-size:10.5px;padding:3.5px 0;border-bottom:1px solid #222}
+.drow:last-of-type{border-bottom:none}
+.dl{color:var(--text3);flex-shrink:0;margin-right:4px;white-space:nowrap}
+.dv{font-weight:500;color:var(--text2);text-align:right;font-size:10.5px;line-height:1.3;max-width:63%}
+.win{color:var(--green)!important}
+.sub{margin-top:8px;padding-top:6px;border-top:1px solid #222}
+.slbl{font-size:8.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:4px}
+.pill-row{display:flex;flex-wrap:wrap;gap:3px;margin:3px 0 5px}
+.pill{font-size:9px;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.pg{background:var(--gbg);color:var(--green);border:1px solid var(--gbr)}
+.pa{background:var(--abg);color:var(--amber);border:1px solid var(--abr)}
+.pb{background:var(--bbg);color:var(--blue);border:1px solid var(--bbr)}
+.pr2{background:var(--rbg);color:var(--red);border:1px solid var(--rbr)}
+a.link-pill{font-size:9px;padding:2px 8px;border-radius:4px;text-decoration:none;display:inline-block;margin:2px 2px 0 0}
+a.link-rent{background:var(--gbg);color:var(--green);border:1px solid var(--gbr)}
+a.link-cc{background:var(--bbg);color:var(--blue);border:1px solid var(--bbr)}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:7px}
+.pro{background:var(--gbg);border:1px solid var(--gbr);border-radius:6px;padding:5px 7px;font-size:9.5px;color:#68c990;line-height:1.45}
+.con{background:var(--rbg);border:1px solid var(--rbr);border-radius:6px;padding:5px 7px;font-size:9.5px;color:#cd7575;line-height:1.45}
+.pro b,.con b{font-weight:600;display:block;margin-bottom:1px;font-size:9px;text-transform:uppercase;letter-spacing:.04em}
+.voices{margin-top:7px;display:flex;flex-direction:column;gap:4px}
+.voice{background:#161616;border-radius:5px;padding:5px 8px;border-left:2px solid var(--border2)}
+.vt{font-size:10px;color:#888;line-height:1.5;font-style:italic}
+.vm{font-size:8.5px;color:#444;margin-top:2px}
+.vsp{display:inline-block;font-size:8px;padding:1px 5px;border-radius:3px;margin-right:3px;font-style:normal;font-weight:600}
+.vpos{background:var(--gbg);color:var(--green)}.vneg{background:var(--rbg);color:var(--red)}.vmix{background:var(--abg);color:var(--amber)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-bottom:.8rem}
+.fi{display:flex;flex-direction:column;gap:3px}
+.fl{font-size:10px;color:var(--text3)}
+.fi select{font-size:11.5px;padding:5px 8px}
+.rbtn{padding:5px 14px;border-radius:6px;border:1px solid var(--border2);background:transparent;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;color:var(--text3)}
+.rbtn:hover{background:var(--bg3);color:var(--text2)}
+.rcount{font-size:10px;color:var(--text3);margin:.7rem 0 .4rem}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:8px}
+.rcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rl);padding:.75rem .85rem;cursor:pointer;transition:border-color .15s}
+.rcard:hover{border-color:#555}
+.rh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.rn{font-size:12.5px;font-weight:500}.rco{font-size:8.5px;color:var(--text3);margin-top:1px}
+.badge{font-size:9px;padding:2px 5px;border-radius:4px;font-weight:500;white-space:nowrap}
+.ba{background:var(--gbg);color:var(--green);border:1px solid var(--gbr)}
+.bb{background:var(--bbg);color:var(--blue);border:1px solid var(--bbr)}
+.bc{background:var(--abg);color:var(--amber);border:1px solid var(--abr)}
+.rrow{display:flex;justify-content:space-between;font-size:10.5px;margin-bottom:2px}
+.rl2{color:var(--text3)}.rv{font-weight:500;color:var(--text2)}
+.cbar{height:3px;border-radius:2px;background:#2a2a2a;margin:3px 0;overflow:hidden}
+.cfill{height:100%}
+.rnote{font-size:9px;color:var(--text3);font-style:italic;margin-top:3px}
+.rclick{font-size:8.5px;color:#3a3a3a;margin-top:3px;text-align:right}
+.nores{color:var(--text3);font-size:12px;padding:1.5rem 0;text-align:center}
+.park-row{display:flex;align-items:flex-start;gap:5px;font-size:9.5px;color:#999;margin-bottom:2px}
+.pd{color:var(--green);font-size:8px;flex-shrink:0;margin-top:3px}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-icon">🏠</div>
+  <h1>Homes — Suburb Comparison Dashboard</h1>
+  <span class="updated">Updated May 2026 &middot; NJ &middot; NY &middot; CT &middot; up to 90 min from Manhattan</span>
+</div>
+<div class="main">
+
+<div class="sec">
+  <div class="st">Section 1 — Compare any two towns</div>
+  <div class="cmp-row">
+    <select id="selA" onchange="renderCmp()"></select>
+    <div class="vs">vs</div>
+    <select id="selB" onchange="renderCmp()"></select>
+  </div>
+  <div class="cgrid" id="cmpOut"></div>
+</div>
+
+<div class="sec">
+  <div class="st">Section 2 — Filter towns by any combination of characteristics</div>
+  <div class="fgrid">
+    <div class="fi"><label class="fl">State</label>
+      <select id="f_st" onchange="doFilter()"><option value="">Any state</option><option>NJ</option><option>NY</option><option>CT</option></select></div>
+    <div class="fi"><label class="fl">Commute time</label>
+      <select id="f_cm" onchange="doFilter()"><option value="">Any (up to 90 min)</option><option value="0-29">Under 30 min</option><option value="30-44">30–44 min</option><option value="45-59">45–59 min</option><option value="60-74">60–74 min</option><option value="75-90">75–90 min</option></select></div>
+    <div class="fi"><label class="fl">School rating</label>
+      <select id="f_sc" onchange="doFilter()"><option value="">Any rating</option><option value="A+">A+ exceptional</option><option value="A">A excellent</option><option value="A-">A− very good</option><option value="B+">B+ above avg</option><option value="B">B above avg</option></select></div>
+    <div class="fi"><label class="fl">Home price</label>
+      <select id="f_pr" onchange="doFilter()"><option value="">Any price</option><option value="0-500">Under $500K</option><option value="500-700">$500K–$700K</option><option value="700-900">$700K–$900K</option><option value="900-1200">$900K–$1.2M</option><option value="1200-1500">$1.2M–$1.5M</option><option value="1500+">$1.5M+</option></select></div>
+    <div class="fi"><label class="fl">Property tax/yr</label>
+      <select id="f_tx" onchange="doFilter()"><option value="">Any</option><option value="0-12000">Under $12K</option><option value="12000-18000">$12K–$18K</option><option value="18000-22000">$18K–$22K</option><option value="22000+">$22K+</option></select></div>
+    <div class="fi"><label class="fl">Avg monthly rent</label>
+      <select id="f_ar" onchange="doFilter()"><option value="">Any</option><option value="0-2500">Under $2,500</option><option value="2500-3500">$2,500–$3,500</option><option value="3500-5500">$3,500–$5,500</option></select></div>
+    <div class="fi"><label class="fl">Rental market size</label>
+      <select id="f_rs" onchange="doFilter()"><option value="">Any</option><option value="large">Large (500+ units)</option><option value="mid">Mid-size (100–499)</option><option value="small">Small (under 100)</option></select></div>
+    <div class="fi"><label class="fl">Terminal</label>
+      <select id="f_term" onchange="doFilter()"><option value="">Any</option><option>Grand Central</option><option>Penn Station</option><option>Port Authority</option></select></div>
+    <div class="fi"><label class="fl">Transit type</label>
+      <select id="f_tr" onchange="doFilter()"><option value="">Any</option><option value="direct">Direct train</option><option value="metro_north">Metro-North</option><option value="nj_transit">NJ Transit rail</option><option value="bus">Bus to Port Authority</option><option value="ferry">Ferry option</option></select></div>
+    <div class="fi"><label class="fl">Kid friendliness</label>
+      <select id="f_kd" onchange="doFilter()"><option value="">Any</option><option value="5">Exceptional (5/5)</option><option value="4">Very kid-friendly (4+)</option><option value="3">Good for families (3+)</option></select></div>
+    <div class="fi"><label class="fl">Childcare / aftercare</label>
+      <select id="f_cc" onchange="doFilter()"><option value="">Any</option><option value="school_aftercare">School-based aftercare</option><option value="ymca">YMCA program</option><option value="private_centers">Private daycare centers</option><option value="nanny_share">Nanny share culture</option><option value="kindercare">KinderCare / chain</option></select></div>
+    <div class="fi"><label class="fl">Parks &amp; outdoors</label>
+      <select id="f_pk" onchange="doFilter()"><option value="">Any</option><option value="waterfront_park">Waterfront / beach</option><option value="hiking">Hiking trails</option><option value="splash_pad">Splash pads / pools</option><option value="nature_center">Nature centers</option><option value="dog_friendly">Dog-friendly parks</option></select></div>
+    <div class="fi"><label class="fl">Youth sports</label>
+      <select id="f_sp" onchange="doFilter()"><option value="">Any</option><option value="soccer">Soccer</option><option value="lacrosse">Lacrosse</option><option value="hockey">Ice hockey</option><option value="baseball">Baseball/softball</option><option value="basketball">Basketball</option><option value="swim">Swim teams</option><option value="tennis">Tennis</option><option value="sailing">Sailing/water sports</option></select></div>
+    <div class="fi"><label class="fl">Vibe / lifestyle</label>
+      <select id="f_vb" onchange="doFilter()"><option value="">Any vibe</option><option value="arts">Arts &amp; culture</option><option value="waterfront">Waterfront/coastal</option><option value="walkable">Highly walkable</option><option value="quiet">Quiet/suburban</option><option value="affordable">Best value</option><option value="upscale">Upscale/affluent</option><option value="family">Family-oriented</option><option value="diverse">Diverse community</option><option value="outdoor">Outdoor lifestyle</option><option value="nyc_feel">Closest NYC feel</option></select></div>
+    <div class="fi"><label class="fl">People say best for</label>
+      <select id="f_rc" onchange="doFilter()"><option value="">Any</option><option value="young_prof">Young professionals</option><option value="families">Families with kids</option><option value="hybrid">Hybrid workers</option><option value="schools_first">Schools are #1</option><option value="creatives">Creatives/artists</option><option value="outdoor">Outdoor enthusiasts</option><option value="budget">Budget-conscious</option></select></div>
+    <div class="fi"><label class="fl">Community feel</label>
+      <select id="f_com" onchange="doFilter()"><option value="">Any</option><option value="welcoming">Welcoming to newcomers</option><option value="tight_knit">Tight-knit/established cliques</option><option value="diverse_feel">Genuinely diverse</option><option value="affluent_feel">Wealthy/affluent feel</option><option value="progressive">Progressive/liberal</option></select></div>
+  </div>
+  <button class="rbtn" onclick="resetF()">Reset all filters</button>
+  <div id="filterOut"></div>
+</div>
+
+</div>
+<script>
+var T=[
+{n:"Maplewood",st:"NJ",co:"Essex Co.",cm:32,term:"Penn Station",tr:"NJ Transit Midtown Direct",tt:["direct","nj_transit"],pr:"$600K–$900K",pm:600,sc:"A",sn:"Excellent, diverse enrollment",vb:"Artsy, tight-knit, walkable",vt:["arts","walkable","diverse","family"],rt:["young_prof","families","hybrid"],ren:200,rs:"mid",ar:2400,ct:["welcoming","diverse_feel","progressive"],tx:19378,hoa:"None typical",elec:"~$150/mo",sports:["soccer","lacrosse","baseball","basketball","tennis"],ks:4,kl:"Very kid-friendly",parks:["Memorial Park (playgrounds & fields)","DeHart Park (picnic & basketball)","South Mountain Reservation (500+ acres)"],ptags:["hiking","dog_friendly"],kperks:["Walkable to school & downtown","Turtleback Zoo 10 min","Active parent community"],kcons:["Very kid-centric — can feel isolating for non-parents"],
+cc:["school_aftercare","private_centers","nanny_share"],ccNote:"District aftercare K–5 (~$350/mo). Multiple private centers. Strong nanny-share culture.",
+rentUrl:"https://www.zillow.com/maplewood-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Maplewood BOE Extended Day",u:"https://www.maplewoodnj.gov/government/departments/community-services"},{l:"Kiddie Academy Maplewood",u:"https://www.kiddieacademy.com/academies/maplewood-nj"}],
+pro:"Fastest Midtown Direct in Essex; strong community; diverse & artsy",con:"Weekend trains nearly non-existent; very kid-centric; prices up 40% YoY",
+voices:[{t:"When I hear the word home I hear Maplewood. This influential neighborhood has driven many people of different generations together.",s:"Niche resident",sent:"pos"},{t:"Extremely kid-centric. If you don't have children yet, it can feel like you're in the minority at every community event.",s:"Forum review",sent:"mix"}]},
+{n:"South Orange",st:"NJ",co:"Essex Co.",cm:35,term:"Penn Station",tr:"NJ Transit Midtown Direct",tt:["direct","nj_transit"],pr:"$650K–$950K",pm:650,sc:"A-",sn:"Top-rated, shared w/ Maplewood",vb:"Historic charm, arts, college-town",vt:["arts","walkable","diverse"],rt:["young_prof","families","creatives"],ren:120,rs:"mid",ar:2200,ct:["welcoming","diverse_feel","progressive"],tx:22717,hoa:"None typical",elec:"~$140/mo",sports:["soccer","lacrosse","baseball","basketball","tennis"],ks:4,kl:"Very kid-friendly",parks:["Meadowland Park","Flood's Hill Park","Seton Hall greenspace"],ptags:["hiking","dog_friendly"],kperks:["Seton Hall youth programming","Community pool ~$35/yr","Strong arts enrichment"],kcons:["Schools near lower-income adjacent towns"],
+cc:["school_aftercare","private_centers","nanny_share"],ccNote:"District aftercare K–5. MAPSO parent networks for nanny shares. Several private centers near Seton Hall.",
+rentUrl:"https://www.zillow.com/south-orange-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"SOMA District Extended Day",u:"https://www.somsd.k12.nj.us"},{l:"Little Learners of S. Orange",u:"https://www.littlelearners.com"}],
+pro:"Seton Hall nearby; diverse & welcoming; great direct train",con:"Adjacent to rougher towns; smaller commercial strip",
+voices:[{t:"Having lived in NYC for 17 years, South Orange was the perfect fit — welcoming, family-oriented, rich diversity.",s:"Niche resident",sent:"pos"},{t:"Lots of diversity, very LGBT friendly, however the K-12 school system needs a lot of work.",s:"Niche resident",sent:"mix"}]},
+{n:"Summit",st:"NJ",co:"Union Co.",cm:45,term:"Penn Station",tr:"NJ Transit Midtown Direct",tt:["direct","nj_transit"],pr:"$900K–$1.5M",pm:900,sc:"A+",sn:"Top 2% nationally, 100% IB pass",vb:"Upscale, vibrant downtown, family",vt:["upscale","walkable","family"],rt:["families","schools_first","hybrid"],ren:180,rs:"mid",ar:2800,ct:["affluent_feel","tight_knit"],tx:18220,hoa:"Some condos $250–400/mo",elec:"~$160/mo",sports:["lacrosse","soccer","tennis","swim","baseball","hockey","basketball"],ks:5,kl:"Exceptional for kids",parks:["Mindowaskin Park (3 play zones, accessible)","Briant Park & arboretum","Summit Swim Club"],ptags:["splash_pad","dog_friendly","nature_center"],kperks:["Summit HS top 2% nationally","Wide range of youth sports","America's Best Small Library award"],kcons:["Very cliquey — hard to break into social circles","Affluent peer pressure on families"],
+cc:["school_aftercare","ymca","private_centers","kindercare"],ccNote:"BOE Extended Day K–5 (waitlists common). Summit YMCA before/after school. KinderCare on Springfield Ave. One of NJ's best childcare ecosystems.",
+rentUrl:"https://www.zillow.com/summit-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Summit BOE Extended Day",u:"https://www.summit.k12.nj.us"},{l:"Summit YMCA",u:"https://www.summitymca.org"},{l:"KinderCare Summit",u:"https://www.kindercare.com/find-a-center/nj/summit"}],
+pro:"Summit HS top 2% nationally; 32 Michelin restaurants; direct Midtown train",con:"Very high prices; homes sell in 13 days; homogeneous and cliquey",
+voices:[{t:"Summit's mostly great — amazing schools. The one problem is that many people are very rich and it's hard if you're not part of that group.",s:"Niche student",sent:"mix"},{t:"Summit High School is very cliquey — hard to make new friends since everyone has had the same friends since elementary school.",s:"Niche resident",sent:"neg"}]},
+{n:"Westfield",st:"NJ",co:"Union Co.",cm:50,term:"Penn Station",tr:"NJ Transit train",tt:["nj_transit"],pr:"$700K–$1.1M",pm:700,sc:"A+",sn:"Consistently top-ranked in NJ",vb:"Classic suburban, charming downtown",vt:["family","walkable","quiet"],rt:["families","schools_first"],ren:110,rs:"mid",ar:2400,ct:["tight_knit","affluent_feel"],tx:17088,hoa:"None typical",elec:"~$150/mo",sports:["soccer","lacrosse","baseball","basketball","tennis","swim"],ks:5,kl:"Exceptional for kids",parks:["Mindowaskin Park","Tamaques Park","Nomahegan Park"],ptags:["splash_pad","dog_friendly"],kperks:["Excellent community sports leagues","Very safe — kids walk to school independently","Active PTA culture"],kcons:["Limited racial/economic diversity","Very establishment feel"],
+cc:["school_aftercare","ymca","private_centers"],ccNote:"Westfield BOE aftercare K–5 (~$380/mo). Westfield YMCA before/after school with bus. Several private daycare centers near downtown.",
+rentUrl:"https://www.zillow.com/westfield-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Westfield Public Schools",u:"https://www.westfieldnjk12.org"},{l:"Westfield Area YMCA",u:"https://www.ymca.net/find-your-y/westfield-area"}],
+pro:"Charming town center; excellent schools; very safe; strong community",con:"Less diversity than Essex; quiet for singles; establishment feel",
+voices:[{t:"Westfield is like a postcard of American suburb life. Great schools, beautiful homes. Very white, very safe.",s:"Forum review",sent:"mix"}]},
+{n:"Montclair",st:"NJ",co:"Essex Co.",cm:50,term:"Penn Station",tr:"NJ Transit Montclair-Boonton",tt:["nj_transit"],pr:"$800K–$1.2M",pm:800,sc:"A",sn:"Magnet system, arts-focused, diverse",vb:"Arts scene, vibrant downtown, diverse",vt:["arts","walkable","diverse","family"],rt:["young_prof","families","hybrid","creatives"],ren:405,rs:"large",ar:2453,ct:["welcoming","diverse_feel","progressive"],tx:19720,hoa:"Some condos $200–450/mo",elec:"~$155/mo",sports:["soccer","lacrosse","baseball","basketball","tennis","hockey","swim"],ks:5,kl:"Exceptional for kids",parks:["Anderson Park (33 acres)","Edgemont Memorial Park Playground","Glenfield Park (soccer, hockey rink)","Brookdale Park (120 acres)"],ptags:["hiking","dog_friendly","nature_center","splash_pad"],kperks:["Magnet school system — most diverse in NJ","Montclair Art Museum kids programs","Edgemont playground rated one of NJ's best"],kcons:["Very kid-centric — non-parents feel left out","Weekend trains almost non-existent"],
+cc:["school_aftercare","ymca","private_centers","nanny_share"],ccNote:"District aftercare K–5 at all schools. Montclair YMCA before/after school. Strong nanny-share networks via parent Facebook groups. 20+ private childcare centers.",
+rentUrl:"https://www.zillow.com/montclair-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Montclair BOE Extended Day",u:"https://www.montclair.k12.nj.us"},{l:"Montclair YMCA",u:"https://www.montclairymca.org"}],
+pro:"Vibrant arts scene; diverse community; 6 train stations; walkable downtown",con:"Weekend trains nearly non-existent; prices up 40%+ YoY",
+voices:[{t:"Montclair is the Brooklyn of New Jersey. Artsy, diverse, great food. The weekend trains are the one real annoyance.",s:"Forum review",sent:"pos"}]},
+{n:"Chatham",st:"NJ",co:"Morris Co.",cm:50,term:"Penn Station",tr:"NJ Transit Midtown Direct",tt:["direct","nj_transit"],pr:"$750K–$1.1M",pm:750,sc:"A+",sn:"Top-ranked NJ district",vb:"Walkable colonials, charming, family",vt:["walkable","family","quiet"],rt:["families","schools_first","hybrid"],ren:90,rs:"small",ar:2600,ct:["tight_knit","affluent_feel"],tx:16354,hoa:"None typical",elec:"~$145/mo",sports:["soccer","lacrosse","baseball","basketball","tennis","swim","hockey"],ks:5,kl:"Exceptional for kids",parks:["Chatham Community Park","Shepard Kollock Park","Great Swamp NWR (7,768 acres)"],ptags:["hiking","dog_friendly","nature_center"],kperks:["Great Swamp for nature education","Top-ranked schools","Kids play outdoors freely"],kcons:["Tight-knit — takes time to break into social circles","Limited cultural diversity"],
+cc:["school_aftercare","private_centers","nanny_share"],ccNote:"Chatham Borough BOE extended day K–5. Several private childcare centers. Nanny sharing popular in this community.",
+rentUrl:"https://www.zillow.com/chatham-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Chatham BOE",u:"https://www.chatham-nj.org/education"},{l:"Primrose School Chatham",u:"https://www.primroseschools.com"}],
+pro:"Direct Midtown Direct; top-ranked school district; walkable to station",con:"Homogeneous; car-dependent in township; competitive market",
+voices:[{t:"Chatham is a beautiful town to raise kids. Extremely safe, great schools. Not much diversity though.",s:"Niche resident",sent:"mix"}]},
+{n:"Ridgewood",st:"NJ",co:"Bergen Co.",cm:55,term:"Penn Station",tr:"NJ Transit Bergen Line",tt:["nj_transit"],pr:"$825K–$1.2M",pm:825,sc:"A+",sn:"Top 5 NJ school district",vb:"Walkable village, quaint, sought-after",vt:["walkable","family","upscale"],rt:["families","schools_first"],ren:80,rs:"small",ar:2700,ct:["tight_knit","affluent_feel"],tx:19193,hoa:"None typical",elec:"~$150/mo",sports:["soccer","lacrosse","baseball","basketball","tennis","swim","hockey"],ks:5,kl:"Exceptional for kids",parks:["Graydon Pool (town lake — summer family hub)","Van Neste Square Park","Saddle River County Park"],ptags:["hiking","dog_friendly","splash_pad"],kperks:["Graydon Pool town lake — kids' summer social hub","Top 5 NJ school district","Strong youth lacrosse, swim, hockey"],kcons:["Undercurrent of privilege — designer everything","Keeping up with the Joneses is real"],
+cc:["school_aftercare","ymca","private_centers"],ccNote:"BOE aftercare K–5 at all schools. Valley Hospital YMCA and Ridgewood YMCA before/after school. Several premium private centers.",
+rentUrl:"https://www.zillow.com/ridgewood-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Ridgewood BOE",u:"https://www.ridgewood.k12.nj.us"},{l:"Ridgewood YMCA",u:"https://www.ymcaofridgewood.org"}],
+pro:"Top 5 NJ school district; 60+ Ivy admits annually; King's organic market",con:"Longer commute (~55 min); very pricey; very competitive housing",
+voices:[{t:"Ridgewood is stunning — schools amazing, downtown charming. But everything gets multiple offers. Exhausting.",s:"Forum review",sent:"mix"},{t:"Kids grow up with an undercurrent of privilege — expensive vacations, designer everything.",s:"Reddit",sent:"neg"}]},
+{n:"Tenafly",st:"NJ",co:"Bergen Co.",cm:47,term:"Port Authority",tr:"NJ Transit bus (Rte 166)",tt:["bus"],pr:"$1M–$1.6M",pm:1000,sc:"A+",sn:"Top-ranked Bergen County",vb:"Quiet, suburban, strong community",vt:["quiet","family","upscale"],rt:["families","schools_first"],ren:55,rs:"small",ar:2900,ct:["tight_knit","affluent_feel"],tx:16200,hoa:"None typical",elec:"~$160/mo",sports:["soccer","lacrosse","tennis","swim","baseball","basketball"],ks:4,kl:"Very kid-friendly",parks:["Tenafly Nature Center (380 acres — trails, wildlife)","Huyler Park","Davis Johnson Park & Gardens","Churchill Nature Preserve"],ptags:["hiking","dog_friendly","nature_center"],kperks:["Tenafly Nature Center — 380 acres wildlife programs","Quiet safe streets for young children","Excellent schools with strong extracurriculars","'Suburb for urbanites' feel"],kcons:["Bus-only commute limits parental flexibility","Very homogeneous — avg income $219K+"],
+cc:["school_aftercare","ymca","private_centers","nanny_share"],ccNote:"Tenafly BOE aftercare K–5. Bergen County YMCA serves area. Nanny/au pair very common at this income level ($219K avg HH income). Several private childcare centers in town.",
+rentUrl:"https://www.zillow.com/tenafly-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Tenafly BOE",u:"https://www.tenafly.k12.nj.us"},{l:"Bergen County YMCA",u:"https://www.bergencountyynet.org"},{l:"Tenafly Nature Center",u:"https://www.tenaflynaturecenter.org"}],
+pro:"Excellent schools; quiet safe streets; 424 acres parks; suburb for urbanites",con:"Bus-only to NYC; car-dependent; median home now $1.71M (up 65% since 2016)",
+voices:[{t:"Tenafly is known to be one of the best towns in Bergen County — great schools, green spaces, many shops. It draws New York residents.",s:"Homes.com city guide",sent:"pos"},{t:"Tenafly and Ridgewood appeal to buyers for whom school district quality is the primary driver — both routinely rank in the top tier statewide.",s:"Jill Biggs Group 2026",sent:"pos"}]},
+{n:"Glen Rock",st:"NJ",co:"Bergen Co.",cm:50,term:"Penn Station",tr:"NJ Transit Bergen Line",tt:["nj_transit"],pr:"$700K–$950K",pm:700,sc:"A+",sn:"Highly rated, close-knit district",vb:"Charming, tight-knit, walkable village",vt:["family","walkable","quiet"],rt:["families","schools_first","hybrid"],ren:60,rs:"small",ar:2500,ct:["tight_knit","welcoming"],tx:17500,hoa:"None typical",elec:"~$148/mo",sports:["soccer","lacrosse","baseball","basketball","tennis","swim"],ks:4,kl:"Very kid-friendly",parks:["Wilde Memorial Park (athletic fields, pickleball)","Diamond Brook Park","Glen Rock Duck Pond","Thielke Arboretum (trails)"],ptags:["hiking","dog_friendly"],kperks:["Duck Pond beloved local gathering spot","Thielke Arboretum trails & gardens","Olympic-sized municipal pool","Strong youth lacrosse & soccer leagues"],kcons:["Very small — limited nightlife and dining variety","Bus + train combo commute less convenient"],
+cc:["school_aftercare","ymca","private_centers"],ccNote:"Glen Rock School District aftercare K–5. Fair Lawn/Ridgewood YMCA branches serve the area. Several private childcare centers in nearby Ridgewood and Paramus.",
+rentUrl:"https://www.zillow.com/glen-rock-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Glen Rock School District",u:"https://www.glenrocknj.net/education"},{l:"Ridgewood YMCA (serves area)",u:"https://www.ymcaofridgewood.org"}],
+pro:"Excellent schools; charming downtown; 2 NJ Transit stations; Olympic pool; close to Ridgewood",con:"Small borough (2 sq miles) — limited amenities; bus+train combo less direct",
+voices:[{t:"Glen Rock offers a charming suburban lifestyle with excellent schools and a strong sense of community. Very family-oriented with parks and dining all within a short commute to NYC.",s:"Homes.com city guide",sent:"pos"},{t:"Glen Rock is a commuter community with a close-knit atmosphere. Very convenient access to New York City — just 20 miles away via two NJ Transit stations.",s:"Homes.com",sent:"pos"}]},
+{n:"Englewood",st:"NJ",co:"Bergen Co.",cm:45,term:"Port Authority",tr:"NJ Transit bus / Express Coach",tt:["bus"],pr:"$600K–$1.1M",pm:600,sc:"A-",sn:"Strong district, diverse enrollment",vb:"Urban-suburban, arts scene, diverse",vt:["arts","diverse","walkable","family"],rt:["young_prof","families","hybrid"],ren:180,rs:"mid",ar:2600,ct:["welcoming","diverse_feel","progressive"],tx:14000,hoa:"Some condos $200–400/mo",elec:"~$155/mo",sports:["soccer","lacrosse","baseball","basketball","tennis","swim"],ks:4,kl:"Very kid-friendly",parks:["Flat Rock Brook Nature Center (150 acres)","MacKay Park (Englewood's main park)","Brookside Park"],ptags:["hiking","dog_friendly","nature_center"],kperks:["Flat Rock Brook Nature Center — 150-acre preserve","Growing arts and dining scene","More diverse peer group than many Bergen towns","Close to GW Bridge"],kcons:["More urban feel than Tenafly/Ridgewood","Schools varied in quality — do research by specific school"],
+cc:["school_aftercare","ymca","private_centers"],ccNote:"Englewood BOE aftercare K–5. Englewood YMCA has before/after school programs. Several private childcare centers. More affordable childcare than Tenafly/Ridgewood.",
+rentUrl:"https://www.zillow.com/englewood-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Englewood School District",u:"https://www.englewoodschools.net"},{l:"Englewood YMCA",u:"https://www.bergenymca.org"}],
+pro:"More affordable Bergen County option; Flat Rock Brook 150-acre nature preserve; growing arts scene; GW Bridge access",con:"More urban feel; schools more varied; less quiet than Tenafly/Ridgewood",
+voices:[{t:"Bergen County buyers often come to us after initially looking at Montclair or Summit — they want the school quality but find Essex County too competitive. Tenafly and Ridgewood offer comparable school experience with slightly more inventory breathing room.",s:"Jill Biggs Group 2026",sent:"pos"},{t:"Englewood offers more varied price points and a more urban feel, with a growing arts and dining scene.",s:"Jill Biggs Group 2026",sent:"pos"}]},
+{n:"Morristown",st:"NJ",co:"Morris Co.",cm:60,term:"Penn Station",tr:"NJ Transit direct",tt:["direct","nj_transit"],pr:"$650K–$1M",pm:650,sc:"A-",sn:"Solid ratings, diverse enrollment",vb:"Charming small town, bustling downtown",vt:["walkable","affordable","family"],rt:["families","hybrid","young_prof","budget"],ren:220,rs:"mid",ar:2300,ct:["welcoming","diverse_feel"],tx:13000,hoa:"Some condos $200–400/mo",elec:"~$140/mo",sports:["soccer","baseball","basketball","tennis","hockey"],ks:3,kl:"Good for families",parks:["Burnham Park","Morristown National Historical Park","Lewis Morris County Park"],ptags:["hiking","dog_friendly","nature_center"],kperks:["Morristown National Historical Park — free & educational","Diverse community — varied peer group","Growing after-school programs"],kcons:["More city-like — some areas less residential","Schools decent but not top-tier"],
+cc:["school_aftercare","ymca","private_centers","kindercare"],ccNote:"Morristown district aftercare K–5. Morristown YMCA robust before/after school. KinderCare nearby. Growing private childcare sector.",
+rentUrl:"https://www.zillow.com/morristown-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Morristown School District",u:"https://www.morristown.org/government/schools"},{l:"Morristown YMCA",u:"https://www.morristownymca.org"}],
+pro:"Affordable; charming historic downtown; growing bar/restaurant scene; direct train",con:"60-min commute; furthest from NYC culturally on this NJ list",
+voices:[{t:"Morristown surprised me — great food scene, history everywhere, genuinely diverse. No pretense.",s:"Forum review",sent:"pos"}]},
+{n:"Red Bank",st:"NJ",co:"Monmouth Co.",cm:75,term:"Penn Station",tr:"NJ Transit Coast Line",tt:["nj_transit","ferry"],pr:"$575K–$700K",pm:575,sc:"B+",sn:"Above average public schools",vb:"Vibrant arts town, waterfront, restaurants",vt:["arts","waterfront","walkable","affordable"],rt:["young_prof","creatives","outdoor","budget"],ren:280,rs:"mid",ar:2100,ct:["welcoming","diverse_feel","progressive"],tx:8500,hoa:"Condos ~$200–400/mo",elec:"~$130/mo",sports:["soccer","baseball","basketball","tennis","sailing"],ks:3,kl:"Good for families",parks:["Riverside Gardens Park (waterfront)","Dorbrook Recreation Area (universally accessible)","Marine Park"],ptags:["waterfront_park","dog_friendly"],kperks:["Dorbrook Park — NJ's first universally integrated playground","Navesink River kayaking & swimming","Count Basie Center kids events"],kcons:["75-min commute means less weekday parent time","Schools not top-tier for competitive academics"],
+cc:["school_aftercare","ymca","private_centers"],ccNote:"Red Bank district aftercare K–5. Monmouth County YMCA after-school programs. Several private childcare centers in downtown Red Bank.",
+rentUrl:"https://www.zillow.com/red-bank-nj/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Red Bank School District",u:"https://www.redbanknj.org/education"},{l:"Monmouth County YMCA",u:"https://monmouthcountyymca.org"}],
+pro:"Count Basie arts scene; 60+ restaurants; Navesink River; Seastreak ferry option",con:"75-min train; schools not top-tier; further from NYC culturally",
+voices:[{t:"Red Bank has the energy of a real town — not a commuter suburb. The arts scene is legit and the food is excellent.",s:"Forum review",sent:"pos"}]},
+{n:"Pelham",st:"NY",co:"Westchester",cm:28,term:"Grand Central",tr:"Metro-North",tt:["metro_north","direct"],pr:"$800K–$1.3M",pm:800,sc:"A",sn:"Top 6 school district in Westchester",vb:"Charming, community-focused, diverse",vt:["family","walkable","diverse"],rt:["families","hybrid","schools_first"],ren:95,rs:"small",ar:2158,ct:["welcoming","diverse_feel"],tx:18000,hoa:"None typical",elec:"~$180/mo",sports:["soccer","lacrosse","baseball","basketball","tennis","swim"],ks:4,kl:"Very kid-friendly",parks:["Wolfs Lane Park","Hunter Island (salt marsh trails)","Pelham Bay Park (nearby)"],ptags:["hiking","dog_friendly"],kperks:["Diverse welcoming community","28-min commute = more parent time at home","Top-6 Westchester school district"],kcons:["Small town — limited amenities within Pelham"],
+cc:["school_aftercare","ymca","private_centers","nanny_share"],ccNote:"Pelham UFSD aftercare K–5. YMCA branch serves area. Nanny shares very common — active parent network on Facebook/Nextdoor. Several private centers.",
+rentUrl:"https://www.zillow.com/pelham-ny/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Pelham UFSD",u:"https://www.pelhamschools.org"},{l:"New Rochelle YMCA (serves Pelham)",u:"https://www.ymcaofgny.org"}],
+pro:"Shortest commute on Westchester list; top-6 district; more affordable than Bronxville",con:"Smaller town; fewer amenities; limited dining options",
+voices:[{t:"Pelham is the hidden gem of Westchester. Great schools, real diversity, fastest commute, and you can actually afford a house.",s:"Forum review",sent:"pos"}]},
+{n:"Bronxville",st:"NY",co:"Westchester",cm:30,term:"Grand Central",tr:"Metro-North",tt:["metro_north","direct"],pr:"$1.1M–$2M",pm:1100,sc:"A+",sn:"Top 10 NY public schools",vb:"Walkable village, young professionals",vt:["walkable","upscale","nyc_feel"],rt:["young_prof","nyc_feel","schools_first"],ren:65,rs:"small",ar:3484,ct:["tight_knit","affluent_feel"],tx:25000,hoa:"Some co-op fees vary",elec:"~$200/mo",sports:["lacrosse","tennis","swim","baseball","soccer","basketball"],ks:4,kl:"Very kid-friendly",parks:["Sagamore Park (nature-inspired, sandbox)","Bronx River Pathway","Scout Field"],ptags:["hiking","dog_friendly"],kperks:["Sagamore Park — wooden structures, sandbox","Top 10 NY public school","Very safe village"],kcons:["Very homogeneous peer environment","Tiny village — same small friend group K-12"],
+cc:["school_aftercare","private_centers","nanny_share"],ccNote:"Bronxville School District aftercare K–5 (high quality). Small village = fewer private centers. Most families use school aftercare or private nannies/au pairs.",
+rentUrl:"https://www.zillow.com/bronxville-ny/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Bronxville School District",u:"https://www.bronxvilleschool.org"},{l:"Care.com Bronxville Nannies",u:"https://www.care.com/nanny-finder/bronxville-new-york"}],
+pro:"30-min commute; walkable village; great restaurants; 98% workforce commuters",con:"Tiny village (6,500 people); very limited rentals; very expensive",
+voices:[{t:"Bronxville is gorgeous. It feels like a movie set. But it's incredibly small and everyone knows everyone.",s:"Forum review",sent:"mix"}]},
+{n:"Larchmont",st:"NY",co:"Westchester",cm:30,term:"Grand Central",tr:"Metro-North",tt:["metro_north","direct"],pr:"$1M–$1.8M",pm:1000,sc:"A+",sn:"Top-rated Mamaroneck district",vb:"Waterfront, charming village, top schools",vt:["waterfront","walkable","upscale","family"],rt:["families","schools_first"],ren:70,rs:"small",ar:2600,ct:["tight_knit","affluent_feel"],tx:26000,hoa:"None typical",elec:"~$190/mo",sports:["sailing","tennis","swim","soccer","lacrosse","baseball"],ks:5,kl:"Exceptional for kids",parks:["Flint Park (playground, sports fields, tennis)","Turtle Park (remodeled 2019)","Hommocks Ice Rink (nearby)"],ptags:["waterfront_park","hiking","dog_friendly","splash_pad"],kperks:["Flint Park — sprawling with pavilions","Sailing & rowing on Long Island Sound","Top-rated Mamaroneck district (#24 in NY)","Hommocks Ice Rink skating & hockey"],kcons:["Very expensive — peer pressure to keep up","Property taxes rose 15.7% in 2025"],
+cc:["school_aftercare","ymca","private_centers","nanny_share"],ccNote:"Mamaroneck UFSD aftercare K–5. Hommocks Community Center & YMCAs serve area. Strong nanny/au pair culture. Premium private preschools (Larchmont Temple Nursery, etc.).",
+rentUrl:"https://www.zillow.com/larchmont-ny/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Mamaroneck UFSD Extended Day",u:"https://www.mamkschools.org"},{l:"Rye YMCA (serves area)",u:"https://www.ryeymca.org"}],
+pro:"30-min commute; top Mamaroneck district; waterfront village; excellent restaurants",con:"Very expensive; limited inventory; property taxes up 15.7% in 2025",
+voices:[{t:"Very low crime. A very nice upscale area with lots of amenities — but too costly for those approaching retirement.",s:"BestPlaces review",sent:"mix"}]},
+{n:"Mamaroneck",st:"NY",co:"Westchester",cm:38,term:"Grand Central",tr:"Metro-North New Haven Line",tt:["metro_north","direct"],pr:"$900K–$1.4M",pm:900,sc:"A+",sn:"#24 of 672 NY districts, 13:1 ratio",vb:"Waterfront harbor, boating, walkable",vt:["waterfront","walkable","family","upscale"],rt:["families","schools_first","outdoor"],ren:71,rs:"small",ar:3819,ct:["welcoming","diverse_feel"],tx:24000,hoa:"None typical",elec:"~$185/mo",sports:["sailing","swim","tennis","soccer","lacrosse","baseball","basketball"],ks:5,kl:"Exceptional for kids",parks:["Harbor Island Park (nautical theme, splash pad, beach)","Hommocks Park Ice Rink","Emelin Theatre (performing arts)"],ptags:["waterfront_park","splash_pad","dog_friendly"],kperks:["Harbor Island Park — one of Westchester's best waterfront playgrounds","Hommocks Ice Rink skating & hockey","#24 in NY for schools","Boating — kids learn to sail"],kcons:["Station parking fills by 7:30am","Property taxes rising 9.95%+ annually"],
+cc:["school_aftercare","ymca","private_centers"],ccNote:"Mamaroneck UFSD aftercare K–5. Hommocks Community Center runs after-school. Multiple private centers on Mamaroneck Ave. Harbor Island Park summer programs excellent.",
+rentUrl:"https://www.zillow.com/mamaroneck-ny/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Mamaroneck UFSD",u:"https://www.mamkschools.org"},{l:"Hommocks Community Center",u:"https://www.townofmamaroneck.org/parks"}],
+pro:"Stunning harbor; boating community; #24 in NY for schools; walkable to train",con:"Station parking fills by 7:30am; property taxes rising 9.95%+ annually",
+voices:[{t:"Quaint little village with a beautiful harbor — 25/30 min from Manhattan. One of the best school districts in Westchester!",s:"Niche resident",sent:"pos"},{t:"People mostly keep to themselves — not really a close local community despite how nice it looks.",s:"Niche resident",sent:"neg"}]},
+{n:"Scarsdale",st:"NY",co:"Westchester",cm:33,term:"Grand Central",tr:"Metro-North",tt:["metro_north","direct"],pr:"$1.2M–$2.5M",pm:1200,sc:"A+",sn:"Top-rated Westchester, #1 in NY",vb:"Affluent, exceptional schools, peaceful",vt:["upscale","quiet","family"],rt:["families","schools_first"],ren:146,rs:"mid",ar:2808,ct:["affluent_feel","tight_knit"],tx:30000,hoa:"None typical",elec:"~$210/mo",sports:["lacrosse","tennis","swim","soccer","baseball","basketball","hockey"],ks:5,kl:"Exceptional for kids",parks:["Saxon Woods Park (playground, mini-golf, pool)","Bronx River Pathway","Weinberg Nature Center"],ptags:["hiking","splash_pad","dog_friendly","nature_center"],kperks:["#1 school district in New York State","Saxon Woods Park — pool, mini-golf, large playground","Weinberg Nature Center — environmental ed"],kcons:["Highest property tax bills in Westchester","Very wealthy, insular peer group"],
+cc:["school_aftercare","ymca","private_centers","nanny_share"],ccNote:"Scarsdale UFSD Extended Day K–5 (waitlists in K). Village Club with children's programming. Strong au pair and nanny culture. Premium private centers. One of best childcare ecosystems in Westchester.",
+rentUrl:"https://www.zillow.com/scarsdale-ny/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Scarsdale UFSD Extended Day",u:"https://www.scarsdaleschools.k12.ny.us"},{l:"Scarsdale Village Club",u:"https://www.scarsdale.com/parks"}],
+pro:"Top school district in NY; 33-min Metro-North; tree-lined historic streets",con:"Very expensive ($1.75M avg); one of highest property tax bills in Westchester",
+voices:[{t:"The schools are genuinely world-class. Kids pushed academically — most go to excellent colleges.",s:"Forum review",sent:"pos"},{t:"Scarsdale feels too quiet or insular for younger singles. But for a peaceful, high-quality lifestyle close to NYC, it's hard to beat.",s:"Niche resident",sent:"mix"}]},
+{n:"New Rochelle",st:"NY",co:"Westchester",cm:35,term:"Grand Central",tr:"Metro-North",tt:["metro_north","direct"],pr:"$600K–$1M",pm:600,sc:"B+",sn:"Above average, diverse enrollment",vb:"Coastal vibe, urban amenities, affordable",vt:["waterfront","diverse","affordable","walkable","nyc_feel"],rt:["young_prof","hybrid","nyc_feel","budget"],ren:450,rs:"large",ar:2828,ct:["welcoming","diverse_feel"],tx:15000,hoa:"Some condos $200–400/mo",elec:"~$165/mo",sports:["soccer","baseball","basketball","tennis","swim","sailing"],ks:3,kl:"Good for families",parks:["Jack's Friendship Garden (fully accessible playground)","Twin Lakes Park (fishing, ice skating)","Glen Island Park (beach)"],ptags:["waterfront_park","hiking","dog_friendly","splash_pad"],kperks:["Jack's Friendship Garden — fully accessible playground","Twin Lakes — fishing, ice skating","Beach access at Glen Island","Diverse peer group"],kcons:["School quality varies significantly by school","Some pockets of higher crime"],
+cc:["school_aftercare","ymca","private_centers","kindercare"],ccNote:"New Rochelle CSD aftercare K–5. New Rochelle YMCA large and well-equipped. KinderCare nearby. Many private options. Most affordable childcare in Westchester.",
+rentUrl:"https://www.zillow.com/new-rochelle-ny/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"New Rochelle CSD",u:"https://www.nredlearn.org"},{l:"New Rochelle YMCA",u:"https://www.ymcaofgny.org/new-rochelle"}],
+pro:"Best value in Westchester; coastal location; diverse community; urban amenities",con:"Schools rated lower; some pockets of crime; uneven development",
+voices:[{t:"New Rochelle is the most diverse and real town in Westchester. Not a bubble. Actual community.",s:"Forum review",sent:"pos"}]},
+{n:"Yonkers",st:"NY",co:"Westchester",cm:28,term:"Grand Central",tr:"Metro-North",tt:["metro_north","direct"],pr:"$500K–$800K",pm:500,sc:"B",sn:"Above average, varies by neighborhood",vb:"Urban-suburban, diverse, riverside",vt:["diverse","affordable","waterfront","nyc_feel"],rt:["young_prof","hybrid","nyc_feel","budget"],ren:838,rs:"large",ar:2345,ct:["diverse_feel","welcoming"],tx:9000,hoa:"Condos ~$200–500/mo",elec:"~$170/mo",sports:["soccer","baseball","basketball","tennis"],ks:3,kl:"Good for families",parks:["Untermyer Park (43 acres, Hudson views)","Tibbets Brook Park (wave pool, water playground)","Bronx River Pathway"],ptags:["waterfront_park","hiking","dog_friendly","splash_pad"],kperks:["Tibbets Brook Park — wave pool & water playground","LEGOLAND Discovery Center at Ridge Hill","Hudson River Museum & Planetarium","Most affordable Westchester"],kcons:["School quality varies dramatically by neighborhood","Some higher-crime pockets — research the specific street"],
+cc:["school_aftercare","ymca","private_centers","kindercare"],ccNote:"Yonkers Public Schools aftercare K–5. Yonkers YMCA large and comprehensive. KinderCare multiple locations. Most affordable childcare costs in the dashboard.",
+rentUrl:"https://www.zillow.com/yonkers-ny/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Yonkers Public Schools",u:"https://www.yonkerspublicschools.org"},{l:"Yonkers YMCA",u:"https://www.ymcaofgny.org/yonkers"}],
+pro:"Most affordable Westchester; 28-min Metro-North; diverse; Untermyer Park riverside",con:"Schools vary significantly by neighborhood; some higher-crime pockets",
+voices:[{t:"Yonkers gets a bad rap. The waterfront is beautiful, the commute is unbeatable, and it's genuinely diverse.",s:"Forum review",sent:"pos"}]},
+{n:"Greenwich",st:"CT",co:"Fairfield Co.",cm:45,term:"Grand Central",tr:"Metro-North (4 stations)",tt:["metro_north","direct"],pr:"$1.5M–$4.7M",pm:1500,sc:"A+",sn:"#5 in CT, 13:1 student-teacher ratio",vb:"Upscale, finance hub, 4 train stations",vt:["upscale","waterfront","family"],rt:["families","schools_first"],ren:500,rs:"large",ar:3956,ct:["affluent_feel","tight_knit"],tx:19050,hoa:"Some condos $400–800/mo",elec:"~$220/mo",sports:["sailing","tennis","swim","lacrosse","soccer","hockey","baseball","rowing"],ks:5,kl:"Exceptional for kids",parks:["Greenwich Point Park (Tod's Point — beach, playground)","Bruce Park (central, duck pond)","Byram Park (public beach)"],ptags:["waterfront_park","hiking","dog_friendly","nature_center","splash_pad"],kperks:["Tod's Point — stunning beach & waterfront playground","#5 school district in CT, 13:1 ratio","Premier sailing, rowing & water sports"],kcons:["Prices up 65-70% since 2020","Kids grow up around extreme wealth — can create entitlement"],
+cc:["school_aftercare","ymca","private_centers","nanny_share","kindercare"],ccNote:"Greenwich Public Schools Extended Day K–5 at all schools. Greenwich Family YMCA excellent before/after school. Au pairs and nannies extremely common. 30+ private childcare options. Best overall childcare ecosystem in CT.",
+rentUrl:"https://www.zillow.com/greenwich-ct/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Greenwich Public Schools",u:"https://www.greenwichschools.org"},{l:"Greenwich Family YMCA",u:"https://www.greenwichymca.org"},{l:"KinderCare Greenwich",u:"https://www.kindercare.com/find-a-center/ct/greenwich"}],
+pro:"4 train stations; express to Grand Central 45 min; top-5 CT schools; finance hub",con:"Prices up 65-70% since 2020; very car-dependent; socially stratified",
+voices:[{t:"Greenwich is very safe, family friendly, positive — great schools. But prices are up roughly 65-70% since Covid.",s:"Niche / CharlieVinci 2026",sent:"mix"}]},
+{n:"Stamford",st:"CT",co:"Fairfield Co.",cm:51,term:"Grand Central",tr:"Metro-North express",tt:["metro_north","direct"],pr:"$500K–$1.2M",pm:500,sc:"A",sn:"Strong and diverse enrollment",vb:"City-suburb blend, vibrant downtown",vt:["walkable","diverse","affordable","arts","nyc_feel"],rt:["young_prof","nyc_feel","hybrid","budget"],ren:1497,rs:"large",ar:2699,ct:["welcoming","diverse_feel","progressive"],tx:13500,hoa:"Condos ~$300–600/mo",elec:"~$195/mo",sports:["soccer","baseball","basketball","tennis","swim","hockey"],ks:3,kl:"Good for families",parks:["Mill River Park (splash pad, events)","Cummings Beach (Long Island Sound)","Bartlett Arboretum (93 acres, trails)"],ptags:["waterfront_park","hiking","dog_friendly","splash_pad","nature_center"],kperks:["Mill River Park splash pad & summer events","Bartlett Arboretum trails","Most diverse peer group in Fairfield County"],kcons:["Schools lower-rated than Gold Coast towns","More urban feel — less classic suburban environment"],
+cc:["school_aftercare","ymca","private_centers","kindercare"],ccNote:"Stamford Public Schools aftercare K–5. Stamford JCC and YMCA both run before/after school. KinderCare multiple locations. 50+ private childcare centers. Most options of any CT town on this list.",
+rentUrl:"https://www.zillow.com/stamford-ct/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Stamford Public Schools",u:"https://www.stamfordpublicschools.org"},{l:"Stamford JCC",u:"https://stamfordjcc.org"},{l:"Stamford YMCA",u:"https://www.stamfordymca.org"}],
+pro:"Most affordable CT pick; vibrant downtown; Fortune 500 HQs; theater and nightclubs",con:"Schools lower than Greenwich/Darien; I-95 traffic; less community feel",
+voices:[{t:"More diverse and less snobbish than the Gold Coast towns. You get a real city vibe at a fraction of Greenwich prices.",s:"Forum review",sent:"pos"}]},
+{n:"Darien",st:"CT",co:"Fairfield Co.",cm:60,term:"Grand Central",tr:"Metro-North",tt:["metro_north","direct"],pr:"$1.5M–$3M",pm:1500,sc:"A+",sn:"Among CT's top districts",vb:"Affluent, beach access, tight-knit",vt:["upscale","waterfront","family","quiet"],rt:["families","schools_first"],ren:108,rs:"mid",ar:3302,ct:["tight_knit","affluent_feel"],tx:22000,hoa:"None typical",elec:"~$210/mo",sports:["sailing","tennis","swim","lacrosse","soccer","hockey","rowing"],ks:5,kl:"Exceptional for kids",parks:["Weed Beach Park (Long Island Sound)","Pear Tree Point Beach","Darien Nature Center"],ptags:["waterfront_park","hiking","dog_friendly","nature_center","splash_pad"],kperks:["Two public beaches on Long Island Sound","Darien Nature Center — hands-on science programs","Strong hockey, lacrosse & sailing"],kcons:["One of wealthiest municipalities in US — peer pressure intense","Homogeneous — limited diversity exposure"],
+cc:["school_aftercare","ymca","private_centers","nanny_share"],ccNote:"Darien Public Schools aftercare K–5 (high quality). Darien YMCA before/after school with bus service. Strong au pair/nanny culture. Several premium private preschools.",
+rentUrl:"https://www.zillow.com/darien-ct/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Darien Public Schools",u:"https://www.darienps.org"},{l:"Darien YMCA",u:"https://www.darieny.org"}],
+pro:"2 public beaches; neighborly feel; frequent trains; top-tier schools",con:"One of priciest CT towns; very homogeneous; parking waitlist months-long",
+voices:[{t:"Darien is smaller and family-focused — people know their neighbors and local schools rank high.",s:"SEKA Moving",sent:"pos"},{t:"Darien is one of the wealthiest municipalities in the US. Extremely expensive and extremely homogeneous.",s:"Brick Underground",sent:"mix"}]},
+{n:"Westport",st:"CT",co:"Fairfield Co.",cm:65,term:"Grand Central",tr:"Metro-North (2 stations)",tt:["metro_north"],pr:"$900K–$2M",pm:900,sc:"A+",sn:"#1 public school district in CT",vb:"Coastal, arts scene, beach access",vt:["waterfront","arts","upscale","family"],rt:["families","schools_first","outdoor"],ren:160,rs:"mid",ar:3400,ct:["affluent_feel","tight_knit"],tx:18600,hoa:"None typical",elec:"~$205/mo",sports:["sailing","tennis","swim","lacrosse","soccer","rowing","baseball"],ks:4,kl:"Very kid-friendly",parks:["Sherwood Island State Park (1.5-mile beach)","Compo Beach (iconic town beach)","Longshore Club Park (sailing, pool)"],ptags:["waterfront_park","hiking","dog_friendly","splash_pad","nature_center"],kperks:["Compo Beach — iconic summer hangout for families","#1 CT school district","Saugatuck River Pathway — family biking & walking"],kcons:["Influx of flashy, entitled families changing community culture","Traffic nightmare near Post Rd"],
+cc:["school_aftercare","ymca","private_centers","nanny_share"],ccNote:"Westport Public Schools aftercare K–5. Westport Weston Family YMCA excellent before/after school. Strong nanny/au pair culture. Several premium private preschools.",
+rentUrl:"https://www.zillow.com/westport-ct/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Westport Public Schools",u:"https://www.westportct.gov/schools"},{l:"Westport Weston Family YMCA",u:"https://www.westportweston.ymca.org"}],
+pro:"#1 CT school district; beach access; charming Saugatuck River downtown; arts/media hub",con:"Losing charm to overdevelopment; entitled new crowd; traffic nightmare",
+voices:[{t:"Westport has beaches, good schools, a train to the city. Biggest cons: it's losing its charm — antique homes torn down for modern farmhouses.",s:"Niche former resident",sent:"mix"},{t:"I began to worry about putting my young children in school with the progeny of the flashy, entitled set. Happy to have left.",s:"Niche former resident",sent:"neg"}]},
+{n:"Norwalk",st:"CT",co:"Fairfield Co.",cm:60,term:"Grand Central",tr:"Metro-North (3 stations)",tt:["metro_north"],pr:"$600K–$1M",pm:600,sc:"B+",sn:"Solid, diverse, affordable Gold Coast",vb:"Diverse, SoNo waterfront, best CT value",vt:["waterfront","diverse","affordable","walkable"],rt:["young_prof","hybrid","nyc_feel","budget"],ren:976,rs:"large",ar:2529,ct:["welcoming","diverse_feel"],tx:11000,hoa:"Condos ~$250–450/mo",elec:"~$180/mo",sports:["soccer","baseball","basketball","tennis","sailing","swim"],ks:3,kl:"Good for families",parks:["Calf Pasture Beach (town beach, splash pad)","Cranbury Park (Treescape adventure play)","Stepping Stones Museum for Children","Maritime Aquarium"],ptags:["waterfront_park","hiking","dog_friendly","splash_pad","nature_center"],kperks:["Stepping Stones Museum — interactive kids museum","Maritime Aquarium — seals, sharks, science programs","Cranbury Park Treescape adventure play"],kcons:["Schools lower-rated than Greenwich/Darien/Westport","I-95 traffic frustrating for family day trips"],
+cc:["school_aftercare","ymca","private_centers","kindercare"],ccNote:"Norwalk Public Schools aftercare K–5. Norwalk YMCA extensive before/after school. KinderCare multiple locations. Stepping Stones Museum enrichment programs. Most affordable childcare in Fairfield County.",
+rentUrl:"https://www.zillow.com/norwalk-ct/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Norwalk Public Schools",u:"https://www.norwalkpublicschools.org"},{l:"Norwalk YMCA",u:"https://www.norwalky.org"},{l:"Stepping Stones Museum",u:"https://www.steppingstonesmuseum.org"}],
+pro:"3 train stations; best CT value; cool SoNo waterfront; diverse community",con:"Schools lower than Greenwich/Darien/Westport; I-95 traffic; uneven neighborhoods",
+voices:[{t:"Norwalk gives you the most bang for your buck among shoreline towns. SoNo has become genuinely cool.",s:"HowellHomes CT",sent:"pos"}]},
+{n:"Fairfield",st:"CT",co:"Fairfield Co.",cm:65,term:"Grand Central",tr:"Metro-North",tt:["metro_north"],pr:"$700K–$1.2M",pm:700,sc:"A",sn:"Strong public schools",vb:"Beach town, community feel, picturesque",vt:["waterfront","family","affordable","outdoor"],rt:["families","outdoor","budget"],ren:200,rs:"mid",ar:2600,ct:["welcoming","tight_knit"],tx:13000,hoa:"None typical",elec:"~$180/mo",sports:["soccer","baseball","basketball","tennis","swim","sailing"],ks:5,kl:"Exceptional for kids",parks:["Jennings Beach (town beach, playground, spray area)","Lake Mohegan (freshwater swimming)","CT Audubon Society Birdcraft Museum"],ptags:["waterfront_park","hiking","dog_friendly","splash_pad","nature_center"],kperks:["Jennings Beach + Lake Mohegan — ocean & freshwater swimming","CT Audubon nature education programs","Fairfield University sports camps for kids","Strong community feel"],kcons:["Longer 65-min commute limits weekday parent time","Post Rd strip malls"],
+cc:["school_aftercare","ymca","private_centers"],ccNote:"Fairfield Public Schools aftercare K–5. Fairfield YMCA (one of CT's largest) — excellent before/after school and summer programs. Fairfield University childcare connection for affiliated families.",
+rentUrl:"https://www.zillow.com/fairfield-ct/rentals/?price=0-5500&home_type=houses,townhomes",
+ccLinks:[{l:"Fairfield Public Schools",u:"https://www.fairfieldschools.org"},{l:"Fairfield YMCA",u:"https://www.fairfieldymca.org"}],
+pro:"Fairfield University adds culture; beach access; community feel; more affordable than Westport",con:"Longer 65-min commute; Post Rd strip malls; development concerns",
+voices:[{t:"Fairfield is a real community — people know each other, local sports, community events. Not as showy as Westport.",s:"Forum review",sent:"pos"}]}
+];
+
+var SR={'A+':1,'A':2,'A-':3,'A\u2212':3,'B+':4,'B':5};
+function cc(m){return m<=45?'#3ecf84':m<=70?'#d4a050':'#d06060';}
+function bclass(s){return s==='A+'?'ba':s.startsWith('A')?'bb':'bc';}
+function sc(s){return s==='pos'?'vpos':s==='neg'?'vneg':'vmix';}
+function sl(s){return s==='pos'?'positive':s==='neg'?'critical':'mixed';}
+function stars(n){var s='';for(var i=0;i<5;i++)s+='<span style="color:'+(i<n?'#f0c040':'#333')+'">&#9733;</span>';return s;}
+
+var ccLabels={school_aftercare:'School aftercare',ymca:'YMCA',private_centers:'Private centers',nanny_share:'Nanny share',kindercare:'KinderCare'};
+
+function buildDrops(){
+  var s=[].concat(T).sort(function(a,b){return a.n.localeCompare(b.n);});
+  var h=s.map(function(t){return '<option value="'+T.indexOf(t)+'">'+t.n+', '+t.st+' ('+t.cm+' min)</option>';}).join('');
+  ['selA','selB'].forEach(function(id){document.getElementById(id).innerHTML=h;});
+  document.getElementById('selA').value=T.findIndex(function(t){return t.n==='Maplewood';});
+  document.getElementById('selB').value=T.findIndex(function(t){return t.n==='Montclair';});
+}
+
+function cardHTML(t,o){
+  var cmW=t.cm<o.cm,prW=t.pm<o.pm,scW=(SR[t.sc]||9)<(SR[o.sc]||9),txW=t.tx<o.tx;
+  var rsL=t.rs==='large'?'Large (~'+t.ren+'+ units)':t.rs==='mid'?'Mid-size (~'+t.ren+' units)':'Small (~'+t.ren+' units)';
+  var vH=t.voices.map(function(v){return '<div class="voice"><div class="vt"><span class="vsp '+sc(v.sent)+'">'+sl(v.sent)+'</span>'+v.t+'</div><div class="vm">&mdash; '+v.s+'</div></div>';}).join('');
+  var spH=t.sports.map(function(s){return '<span class="pill pb">'+s+'</span>';}).join('');
+  var pkH=t.kperks.map(function(p){return '<span class="pill pg">'+p+'</span>';}).join('');
+  var kcH=t.kcons.map(function(p){return '<span class="pill pa">'+p+'</span>';}).join('');
+  var prH=t.parks.map(function(p){return '<div class="park-row"><span class="pd">&#9679;</span><span>'+p+'</span></div>';}).join('');
+  var ccpH=t.cc.map(function(c){return '<span class="pill pb">'+(ccLabels[c]||c)+'</span>';}).join('');
+  var ccLinkH=t.ccLinks.map(function(l){return '<a href="'+l.u+'" target="_blank" rel="noopener" class="link-pill link-cc">'+l.l+'&nbsp;&#8599;</a>';}).join('');
+  return '<div class="card">'
+    +'<div class="cn">'+t.n+'</div><div class="cs">'+t.co+' &middot; '+t.st+'</div>'
+    +'<div class="drow"><span class="dl">Terminal</span><span class="dv">'+t.term+'</span></div>'
+    +'<div class="drow"><span class="dl">Commute</span><span class="dv'+(cmW?' win':'')+'">'+t.cm+' min'+(cmW?' &#10003;':'')+'</span></div>'
+    +'<div class="drow"><span class="dl">Transit</span><span class="dv">'+t.tr+'</span></div>'
+    +'<div class="drow"><span class="dl">Home price</span><span class="dv'+(prW?' win':'')+'">'+t.pr+(prW?' &#10003;':'')+'</span></div>'
+    +'<div class="drow"><span class="dl">Schools</span><span class="dv'+(scW?' win':'')+'">'+t.sc+(scW?' &#10003;':'')+' &mdash; '+t.sn+'</span></div>'
+    +'<div class="drow"><span class="dl">Vibe</span><span class="dv">'+t.vb+'</span></div>'
+    +'<div class="sub"><div class="slbl" style="color:#d4a050">Avg property costs</div>'
+    +'<div class="drow"><span class="dl">Property tax/yr</span><span class="dv'+(txW?' win':'')+'">$'+t.tx.toLocaleString()+(txW?' &#10003;':'')+'</span></div>'
+    +'<div class="drow"><span class="dl">Electricity est.</span><span class="dv">'+t.elec+'</span></div>'
+    +'<div class="drow"><span class="dl">HOA / condo fees</span><span class="dv">'+t.hoa+'</span></div>'
+    +'<div class="drow"><span class="dl">Rental market</span><span class="dv">'+rsL+'</span></div>'
+    +'<div class="drow" style="border:none"><span class="dl">Avg monthly rent</span><span class="dv">$'+t.ar.toLocaleString()+'/mo</span></div>'
+    +'<div style="margin-top:5px"><a href="'+t.rentUrl+'" target="_blank" rel="noopener" class="link-pill link-rent">Search house/townhome rentals &le;$5,500 &rarr;</a></div>'
+    +'</div>'
+    +'<div class="sub"><div class="slbl" style="color:#3ecf84">Kid &amp; family life &mdash; '+stars(t.ks)+' '+t.kl+'</div>'
+    +prH
+    +'<div style="margin-top:4px" class="pill-row">'+pkH+'</div>'
+    +'<div class="pill-row">'+kcH+'</div>'
+    +'<div class="slbl" style="margin-top:4px">Youth sports</div>'
+    +'<div class="pill-row">'+spH+'</div>'
+    +'</div>'
+    +'<div class="sub"><div class="slbl" style="color:#5aaaf0">Childcare &amp; aftercare (Kindergarten)</div>'
+    +'<div class="pill-row">'+ccpH+'</div>'
+    +'<div style="font-size:9.5px;color:#888;line-height:1.5;margin-top:4px">'+t.ccNote+'</div>'
+    +'<div style="margin-top:5px">'+ccLinkH+'</div>'
+    +'</div>'
+    +'<div class="pc"><div class="pro"><b>Pros</b>'+t.pro+'</div><div class="con"><b>Cons</b>'+t.con+'</div></div>'
+    +'<div class="voices">'+vH+'</div>'
+    +'</div>';
+}
+
+function renderCmp(){
+  var t1=T[+document.getElementById('selA').value];
+  var t2=T[+document.getElementById('selB').value];
+  if(!t1||!t2)return;
+  document.getElementById('cmpOut').innerHTML=cardHTML(t1,t2)+cardHTML(t2,t1);
+}
+
+function matchBand(val,band){
+  if(!band)return true;
+  if(band.endsWith('+'))return val>=parseInt(band);
+  var p=band.split('-').map(Number);
+  return val>=p[0]&&val<=p[1];
+}
+
+function doFilter(){
+  var fs=document.getElementById('f_st').value;
+  var fc=document.getElementById('f_cm').value;
+  var fsc=document.getElementById('f_sc').value;
+  var fp=document.getElementById('f_pr').value;
+  var ftx=document.getElementById('f_tx').value;
+  var far=document.getElementById('f_ar').value;
+  var frs=document.getElementById('f_rs').value;
+  var ft=document.getElementById('f_term').value;
+  var ftr=document.getElementById('f_tr').value;
+  var fk=document.getElementById('f_kd').value;
+  var fcc=document.getElementById('f_cc').value;
+  var fpk=document.getElementById('f_pk').value;
+  var fsp=document.getElementById('f_sp').value;
+  var fvb=document.getElementById('f_vb').value;
+  var frc=document.getElementById('f_rc').value;
+  var fco=document.getElementById('f_com').value;
+
+  var res=T.filter(function(t){
+    if(fs&&t.st!==fs)return false;
+    if(fc&&!matchBand(t.cm,fc))return false;
+    if(fsc){var nm=fsc.replace('-','\u2212');if(t.sc!==nm&&t.sc!==fsc)return false;}
+    if(fp&&!matchBand(t.pm,fp))return false;
+    if(ftx&&!matchBand(t.tx,ftx))return false;
+    if(far&&!matchBand(t.ar,far))return false;
+    if(frs&&t.rs!==frs)return false;
+    if(ft&&t.term!==ft)return false;
+    if(ftr&&t.tt.indexOf(ftr)<0)return false;
+    if(fk&&t.ks<parseInt(fk))return false;
+    if(fcc&&t.cc.indexOf(fcc)<0)return false;
+    if(fpk&&t.ptags.indexOf(fpk)<0)return false;
+    if(fsp&&t.sports.indexOf(fsp)<0)return false;
+    if(fvb&&t.vt.indexOf(fvb)<0)return false;
+    if(frc&&t.rt.indexOf(frc)<0)return false;
+    if(fco&&t.ct.indexOf(fco)<0)return false;
+    return true;
+  });
+
+  var el=document.getElementById('filterOut');
+  if(!res.length){el.innerHTML='<p class="nores">No towns match &mdash; try loosening a filter.</p>';return;}
+  res.sort(function(a,b){return a.cm-b.cm;});
+
+  var cards=res.map(function(t){
+    var idx=T.indexOf(t);
+    var pct=Math.min(100,Math.round((t.cm/95)*100));
+    var rsL=t.rs==='large'?'Large market':t.rs==='mid'?'Mid-size market':'Small/limited';
+    var topSp=t.sports.slice(0,4).join(', ')+(t.sports.length>4?' +more':'');
+    var ccpH=t.cc.map(function(c){return '<span class="pill pb" style="font-size:8px">'+(ccLabels[c]||c)+'</span>';}).join('');
+    return '<div class="rcard" onclick="loadCmp('+idx+')">'
+      +'<div class="rh"><div><div class="rn">'+t.n+'</div><div class="rco">'+t.co+' &middot; '+t.st+' &middot; '+t.term+'</div></div><span class="badge '+bclass(t.sc)+'">'+t.sc+' schools</span></div>'
+      +'<div class="rrow"><span class="rl2">Commute</span><span class="rv" style="color:'+cc(t.cm)+'">'+t.cm+' min</span></div>'
+      +'<div class="cbar"><div class="cfill" style="width:'+pct+'%;background:'+cc(t.cm)+'"></div></div>'
+      +'<div class="rrow"><span class="rl2">Home price</span><span class="rv">'+t.pr+'</span></div>'
+      +'<div class="rrow"><span class="rl2">Property tax/yr</span><span class="rv">$'+t.tx.toLocaleString()+'</span></div>'
+      +'<div class="rrow"><span class="rl2">Avg rent</span><span class="rv" style="color:#3ecf84">$'+t.ar.toLocaleString()+'/mo</span></div>'
+      +'<div class="rrow"><span class="rl2">Rental market</span><span class="rv">'+rsL+'</span></div>'
+      +'<div class="rrow"><span class="rl2">Kid score</span><span class="rv">'+stars(t.ks)+' '+t.kl+'</span></div>'
+      +'<div class="rrow"><span class="rl2">Sports</span><span class="rv" style="font-size:9.5px;color:#5aaaf0">'+topSp+'</span></div>'
+      +'<div style="margin-top:3px">'+ccpH+'</div>'
+      +'<div class="rnote">'+t.vb+'</div>'
+      +'<a href="'+t.rentUrl+'" target="_blank" rel="noopener" style="display:block;margin-top:4px;font-size:9px;color:#3ecf84;text-decoration:none">Search rentals &le;$5,500 &#8599;</a>'
+      +'<div class="rclick">Click to compare &nearr;</div>'
+      +'</div>';
+  }).join('');
+
+  el.innerHTML='<div class="rcount">'+res.length+' town'+(res.length!==1?'s':'')+' match &mdash; click any card to load it into the comparison above</div><div class="rgrid">'+cards+'</div>';
+}
+
+var slot=1;
+function loadCmp(idx){
+  document.getElementById(slot===1?'selA':'selB').value=idx;
+  slot=slot===1?2:1;
+  renderCmp();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetF(){
+  ['f_st','f_cm','f_sc','f_pr','f_tx','f_ar','f_rs','f_term','f_tr','f_kd','f_cc','f_pk','f_sp','f_vb','f_rc','f_com'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('filterOut').innerHTML='';
+}
+
+buildDrops();
+renderCmp();
+</script>
+</body>
+</html>
